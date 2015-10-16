@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" ng-controller="rootCtrl" xmlns:ng="http://angularjs.org">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="author" content="Alone,Alone@an56.net">
+<title>Alone Al-one</title>
+<style>
+body { margin:0; padding-top:0px; font-family:微软雅黑; }
+.cf {*zoom:1;}
+.cf:before,.cf:after {display:table;line-height:0;content:"";}
+.cf:after {clear:both;}
+.cl { clear:both; }
+.fl { float:left; }
+.fr { float:right; }
+.btn-group.btn-inline { font-size:0; }
+.btn-group.btn-inline > .btn,
+.btn-group.btn-inline > .btn-group { float:none; }
+td:last-child .dropdown-menu { left:auto; right:0; min-width:inherit; }
+.panel .pagination { margin:0; }
+input.date-range { min-width:200px; }
+.daterangepicker .ranges li { float:left; width:75px; margin-right:5px; }
+.an-loading { position:fixed; bottom:10px; right:10px; float:left; display-:none; color:#888; opacity:.6; }
+</style>
+<script>var isIE = 0;</script>
+<!--[if IE 9]><script>isIE = 9;</script><![endif]-->
+<!--[if IE 8]><script>isIE = 8;</script><![endif]-->
+<!--[if IE 7]><script>isIE = 7;</script><![endif]-->
+<!--[if lt IE 7]><script>isIE = 6;</script><![endif]-->
+<!--[if lte IE 8]>
+<script>
+document.createElement('ng-include');document.createElement('ng-pluralize');document.createElement('ng-view');
+document.createElement('ng:include');document.createElement('ng:pluralize');document.createElement('ng:view');
+</script>
+<![endif]-->
+<!--[if lte IE 9]><script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js" charset="utf-8"></script><![endif]-->
+</head>
+<body class="theme theme-black">
+<div id="doc">
+  <div class="container-fluid">
+    <h3 class="text-center">Hello Alone</h3>
+  </div>
+</div>
+
+<div class="an-loading" ng-show="!!isLoading"><i class="fa fa-spinner fa-spin fa-3x"></i></div>
+<script>window.require || document.write('<script src="http://cdn.bootcss.com/require.js/2.1.11/require.min.js" charset="utf-8"><\/script>');</script>
+<script>//window.jQuery || document.write('<script src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js" charset="utf-8"><\/script>');</script>
+<script>//window.angular || document.write('<script src="http://cdn.bootcss.com/angular.js/1.3.15/angular.min.js" charset="utf-8"><\/script>');</script>
+<style>
+@font-face
+{
+  font-family:'iconfont-10';
+  src:url('http://at.alicdn.com/t/font_1401158182_6869004.eot'); /* IE9 */
+  src:url('http://at.alicdn.com/t/font_1401158182_6869004.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('http://at.alicdn.com/t/font_1401158182_6869004.woff') format('woff'), /* chrome、firefox */
+  url('http://at.alicdn.com/t/font_1401158182_6869004.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+ */
+  url('http://at.alicdn.com/t/font_1401158182_6869004.svg#iconfont') format('svg'); /* iOS 4.1- */
+}
+.iconfont { -webkit-font-smoothing:antialiased;-webkit-text-stroke-width:.2px;-moz-osx-font-smoothing:grayscale; }
+.iconfont-10 { font-family:'iconfont-10' !important;font-style:normal;-webkit-font-smoothing:antialiased;-webkit-text-stroke-width:.2px;-moz-osx-font-smoothing:grayscale; }
+</style>
+<script>
+(function(ready,ngcbk)
+{
+
+  var cdn = 'http://cdn.bootcss.com/';
+
+  require.config(
+  {
+    waitSeconds:60 * 10,
+    paths:
+    {
+      'jquery'               : ['http://getapi.sinaapp.com/static/libs/jquery/1.11.1/jquery.min',cdn + 'jquery/1.11.1/jquery.min','http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min'],
+      'json2'                : cdn + 'json2/20150503/json2.min',
+      'require-css'          : cdn + 'require-css/0.1.8/css.min',
+      'bootstrap'            : cdn + 'twitter-bootstrap/3.3.4/js/bootstrap.min',
+      'bootstrap-css'        : cdn + 'twitter-bootstrap/3.3.4/css/bootstrap.min',
+      'angular'              : cdn + 'angular.js/1.3.15/angular.min',
+      'angular-route'        : cdn + 'angular.js/1.3.15/angular-route.min',
+      'angular-touch'        : cdn + 'angular.js/1.3.15/angular-touch.min',
+      'angular-animate'      : cdn + 'angular.js/1.3.15/angular-animate.min',
+      'angular-ui-bootstrap' : cdn + 'angular-ui-bootstrap/0.13.0/ui-bootstrap-tpls.min',
+      'animate-css'          : cdn + 'animate.css/3.3.0/animate.min',
+      'font-awesome'         : cdn + 'font-awesome/4.3.0/css/font-awesome.min',
+      'nprogress'            : cdn + 'nprogress/0.2.0/nprogress.min',
+      'zybuluo-css-lib'      : '//www.zybuluo.com/static/assets/1bc053c8.base.lib.min',
+      'zybuluo-css-layout'   : '//www.zybuluo.com/static/assets/mdeditor/a793fd3f.layout.min',
+      'zybuluo-css-code'     : '//www.zybuluo.com/static/editor/libs/google-code-prettify/desert-cmd',
+    },
+    shim:
+    {
+      'json2'                : {exports:'JSON'},
+      'angular'              : {deps:[window.JSON ? '' : 'json2'],exports:'angular'},
+      'angular-route'        : {deps:['angular'],exports:'ngRoute'},
+      'angular-touch'        : {deps:['angular'],exports:'ngTouch'},
+      'angular-animate'      : {deps:['angular'],exports:'ngAnimate'},
+      'angular-ui-bootstrap' : {deps:['angular','angular-touch','angular-animate','bootstrap','css!bootstrap-css']},
+      'nprogress'            : {deps:['css!nprogress'],exports:'NProgress'}
+    },
+    map:
+    {
+      '*' : {'css' : 'require-css'}
+    }
+  });
+
+  // - jQuery
+  require(['jquery'],function($)
+  {
+    $(ready);
+
+    // - Angular
+    $(function($)
+    {
+      require(['angular-ui-bootstrap','angular-route'],ngcbk);
+      require(['css!animate-css','css!font-awesome']);
+    });
+  });
+
+})
+
+// - jQuery
+(function($)
+{
+  window.body = $('body:first');
+  window.loader = $('.an-loading');
+
+  require(['nprogress'],function(NProgress)
+  {
+    window.nprogress = NProgress.configure({trickleRate:.1}).start();
+    $(document)
+    .on('ajaxStart',function()
+    {
+      NProgress.start();
+    })
+    .on('ajaxComplete',function()
+    {
+      NProgress.done();
+    });
+  });
+
+  return $;
+},
+
+// - Angular
+function()
+{
+
+  var app = angular.module('App',['ui.bootstrap','ngTouch','ngAnimate'])
+
+  .filter('str2jso',function()
+  {
+    return function(jss)
+    {
+      return angular.fromJson(jss);
+    };
+  })
+
+  .filter('str2htm',function($sce)
+  {
+    return function(str)
+    {
+      return $sce.trustAsHtml(str);
+    };
+  })
+
+  .filter('htmlDecode',function()
+  {
+    return function(str)
+    { 
+      var div = document.createElement('div');
+      div.innerHTML = str;
+      return div.innerText || div.textContent;
+    };
+  })
+
+  .directive('strInt',function()
+  {
+    return {
+      require : 'ngModel',
+      link : function(scope,element,attrs,ngModel)
+      {
+        ngModel.$parsers.push(function(val)
+        {
+          return val == null ? '' : (val + '');
+        });
+        ngModel.$formatters.push(function(val)
+        {
+          var num = parseInt(val);
+          return !isNaN(num) ? num : '';
+        });
+      }
+    };
+  })
+
+  .controller('rootCtrl',function($rootScope,$scope,$http,$modal,$sce,$log)
+  {
+    $rootScope.comm = $rootScope.comm || {};
+    $rootScope.btheme = ['default','primary','success','info','warning','danger'];
+    $scope.data = {};
+    $scope.data.list = [];
+    $scope.route = {};
+
+    $scope.get_route = function()
+    {
+      var par = decodeURIComponent(location.search) || location.hash || '',
+          reg = /[#?]\/([\w\.-]+)[\/-]([^=&]*[^\/=&]+)(?:\/?=\/?&(.+))?/gi,
+          arr = reg.exec(par) || [];
+      if(arr[1]) $scope.route.src  = arr[1];
+      if(arr[2]) $scope.route.path = arr[2];
+      //console.log($scope.route);
+      return $scope.route;
+    };
+
+    $scope.init = function()
+    {
+    };
+
+    $scope.getapi = function(url,cfg)
+    {
+      cfg = cfg || {};
+      var typ = cfg.retType || 'json',
+          api = 'http://getapi.sinaapp.com/http/?callback=JSON_CALLBACK&type=' + typ + '&url=' + encodeURIComponent(url);
+      $scope.isLoading = 1;
+      $ && $(document).trigger('ajaxStart');
+      var xhr = $http.jsonp(api,cfg || {}),
+          cbk = function()
+          {
+            $ && $(document).trigger('ajaxComplete');
+            $scope.isLoading = 0;
+          };
+      xhr.then(cbk,cbk);
+      return xhr;
+    };
+
+    $scope.isLoading = 0;
+  });
+
+  // - Angular Start
+  angular.bootstrap(document,[app.name]);
+  window.angular_app = app;
+  $(document).trigger('angular.ready');
+  //loader.hide(1000);
+
+  return app;
+});
+
+require(['jquery'],function($)
+{
+  $(document)
+  .on('angular.ready',function()
+  {
+    //console.log(angular_app);
+    window.nprogress && nprogress.done();
+
+  });
+});
+</script>
+<link rel="prefetch prerender" href="http://805754163.qzone.qq.com/">
+</body>
+</html>
