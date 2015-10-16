@@ -7,7 +7,7 @@
 
 ### 1. 斜体和粗体
 
-使用 * 和 ** 表示斜体和粗体。
+使用 \* 和 ** 表示斜体和粗体。
 
 示例：
 
@@ -37,7 +37,7 @@
 
 示例：
 
-这是去往 [本人博客](http://al-one.github.com) 的链接。
+这是去往 [本人博客](http://al-one.github.com/) 的链接。
 
 ### 4. 无序列表
 
@@ -89,7 +89,7 @@
 
 示例：
 
-![我的头像](https://www.zybuluo.com/static/img/my_head.jpg)
+![我的头像](//avatars3.githubusercontent.com/u/4549099)
 
 
 # Markdown 高阶语法手册
@@ -327,8 +327,8 @@ D-->>A: Dashed open arrow
     - [ ] 准备邮轮上需要携带的物品
     - [ ] 浏览日本免税店的物品
     - [x] 购买蓝宝石公主号七月一日的船票
-        
-        
+
+
 [^footnote]: 这是一个 *注脚* 的 **文本**。
 
 [^footnote2]: 这是另一个 *注脚* 的 **文本**。
