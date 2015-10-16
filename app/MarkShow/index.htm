@@ -87,6 +87,10 @@ document.createElement('ng:include');document.createElement('ng:pluralize');docu
       'animate-css'          : cdn + 'animate.css/3.3.0/animate.min',
       'font-awesome'         : cdn + 'font-awesome/4.3.0/css/font-awesome.min',
       'nprogress'            : cdn + 'nprogress/0.2.0/nprogress.min',
+      'marked'               : cdn + 'marked/0.3.5/marked.min',
+      'raphael'              : cdn + 'raphael/2.1.4/raphael-min',
+      'prettify'             : cdn + 'prettify/r298/prettify.min',
+      'flowchart'            : cdn + 'flowchart/1.4.2/flowchart.amd',
       'zybuluo-css-lib'      : '//www.zybuluo.com/static/assets/1bc053c8.base.lib.min',
       'zybuluo-css-layout'   : '//www.zybuluo.com/static/assets/mdeditor/a793fd3f.layout.min',
       'zybuluo-css-code'     : '//www.zybuluo.com/static/editor/libs/google-code-prettify/desert-cmd',
@@ -99,7 +103,8 @@ document.createElement('ng:include');document.createElement('ng:pluralize');docu
       'angular-touch'        : {deps:['angular'],exports:'ngTouch'},
       'angular-animate'      : {deps:['angular'],exports:'ngAnimate'},
       'angular-ui-bootstrap' : {deps:['angular','angular-touch','angular-animate','bootstrap','css!bootstrap-css']},
-      'nprogress'            : {deps:['css!nprogress'],exports:'NProgress'}
+      'nprogress'            : {deps:['css!nprogress'],exports:'NProgress'},
+      'flowchart'            : {deps:['raphael'],exports:'flowchart'}
     },
     map:
     {
@@ -207,10 +212,10 @@ function()
     $scope.get_route = function()
     {
       var par = decodeURIComponent(location.search) || location.hash || '',
-          reg = /[#?]\/([\w\.-]+)[\/-]([^=&]*[^\/=&]+)(?:\/?=\/?&(.+))?/gi,
+          reg = /[#?]\/([\w\.-]+)[\/-]([^=&]*[^=&]+)(?:\/?=\/?&(.+))?/gi,
           arr = reg.exec(par) || [];
-      if(arr[1]) $scope.route.src  = arr[1];
-      if(arr[2]) $scope.route.path = arr[2];
+      $scope.route.src  = arr[1] || '';
+      $scope.route.path = arr[2] || '';
       //console.log($scope.route);
       return $scope.route;
     };
@@ -218,10 +223,11 @@ function()
     $scope.init = function()
     {
       $scope.get_route();
-      if(!$scope.route.src || !$scope.route.path) return false;
+      var url = $scope.route.path.replace(/[\/\\]+\s*$/,'');
+      if(!$scope.route.src || !url) return false;
       if($scope.route.src == 'zybuluo' || $scope.route.src == 'zybl')
       {
-        $scope.getapi('https://www.zybuluo.com/' + $scope.route.path)
+        $scope.getapi('https://www.zybuluo.com/' + url)
         .then(function(ret)
         {
           var htm = $('<div>').html(ret.data.data || '');
@@ -231,6 +237,51 @@ function()
           //console.log(ret);
         });
       }
+      else
+      {
+        require(['marked','flowchart','prettify'],function(marked,flowchart)
+        {
+          var url = $scope.route.path;
+          if(/[\/\\]$/i.test(url)) url += 'README.md';
+          $scope.ajaxStart();
+          $http.get(url)
+          .then(function(ret)
+          {
+            var mkd = ret.data || '',
+                htm = marked(mkd),
+                box = $('<div>').attr('id','wmd-preview').addClass('wmd-preview wmd-preview-full-reader');
+            box.html(htm);
+            box.find('pre').filter(':has(.lang-flow),:contains("```flow")').addClass('prettify-no');
+            box.find('pre:not(.prettify-no)').addClass('prettyprint linenums');
+            $scope.MarkShow = box.prop('outerHTML');
+            require(['css!zybuluo-css-lib','css!zybuluo-css-layout','css!zybuluo-css-code'],function()
+            {
+              window.prettyPrint && prettyPrint();
+              $('.lang-flow').each(function(i)
+              {
+                var the = $(this),
+                    str = the.text();
+                the.empty();
+                obj = flowchart.parse(str).drawSVG(the[0]);
+                console.log(obj);
+              });
+            });
+            $scope.ajaxComplete();
+          },$scope.ajaxComplete);
+        });
+      }
+    };
+
+    $scope.ajaxStart = function()
+    {
+      $scope.isLoading = 1;
+      $ && $(document).trigger('ajaxStart');
+    };
+
+    $scope.ajaxComplete = function()
+    {
+      $ && $(document).trigger('ajaxComplete');
+      $scope.isLoading = 0;
     };
 
     $scope.getapi = function(url,cfg)
@@ -238,14 +289,9 @@ function()
       cfg = cfg || {};
       var typ = cfg.retType || 'json',
           api = 'http://getapi.sinaapp.com/http/?callback=JSON_CALLBACK&type=' + typ + '&url=' + encodeURIComponent(url);
-      $scope.isLoading = 1;
-      $ && $(document).trigger('ajaxStart');
+      $scope.ajaxStart();
       var xhr = $http.jsonp(api,cfg || {}),
-          cbk = function()
-          {
-            $ && $(document).trigger('ajaxComplete');
-            $scope.isLoading = 0;
-          };
+          cbk = $scope.ajaxComplete;
       xhr.then(cbk,cbk);
       return xhr;
     };
