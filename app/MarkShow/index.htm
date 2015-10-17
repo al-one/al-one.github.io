@@ -241,7 +241,7 @@ function()
       {
         require(['marked','flowchart','prettify'],function(marked,flowchart)
         {
-          var url = $scope.route.path;
+          var url = './data/' + $scope.route.path;
           if(/[\/\\]$/i.test(url)) url += 'README.md';
           $scope.ajaxStart();
           $http.get(url)
@@ -253,6 +253,18 @@ function()
             box.html(htm);
             box.find('pre').filter(':has(.lang-flow),:contains("```flow")').addClass('prettify-no');
             box.find('pre:not(.prettify-no)').addClass('prettyprint linenums');
+            box.find('blockquote').addClass('black-blockquote');
+            box.find('code:not(pre code)').addClass('code-black');
+            box.find('table').addClass('table table-striped-black table-bordered');
+            $($.makeArray(box.find('li').filter(':contains("[ ]"),:contains("[x]")')).reverse())
+            .html(function()
+            {
+              var the = $(this),
+                  htm = the.html();
+              htm = htm.replace(/^(\s*)\[ \]/g,'$1<i class="icon-check-empty"></i>')
+                       .replace(/^(\s*)\[x\]/g,'$1<i class="icon-check-sign"></i>');
+              return htm;
+            });
             $scope.MarkShow = box.prop('outerHTML');
             require(['css!zybuluo-css-lib','css!zybuluo-css-layout','css!zybuluo-css-code'],function()
             {
@@ -262,8 +274,7 @@ function()
                 var the = $(this),
                     str = the.text();
                 the.empty();
-                obj = flowchart.parse(str).drawSVG(the[0]);
-                console.log(obj);
+                flowchart.parse(str).drawSVG(the[0]);
               });
             });
             $scope.ajaxComplete();
