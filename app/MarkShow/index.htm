@@ -100,6 +100,7 @@ MathJax.Hub.Config(
       'flowchart'            : cdn + 'flowchart/1.4.2/flowchart.amd',
       'mathjax'              : cdn + 'mathjax/2.6.0-beta.1/MathJax',
       'mathjax-config'       : cdn + 'mathjax/2.6.0-beta.1/config/TeX-AMS-MML_HTMLorMML',
+      'mathjax-locale'       : cdn + 'mathjax/2.6.0-beta.1/localization/zh-hans/zh-hans',
       'zybuluo-css-lib'      : '//www.zybuluo.com/static/assets/1bc053c8.base.lib.min',
       'zybuluo-css-layout'   : '//www.zybuluo.com/static/assets/mdeditor/a793fd3f.layout.min',
       'zybuluo-css-code'     : '//www.zybuluo.com/static/editor/libs/google-code-prettify/desert-cmd',
@@ -115,7 +116,8 @@ MathJax.Hub.Config(
       'nprogress'            : {deps:['css!nprogress'],exports:'NProgress'},
       'flowchart'            : {deps:['raphael'],exports:'flowchart'},
       'mathjax'              : {exports:'MathJax'},
-      'mathjax-config'       : {deps:['mathjax'],exports:'MathJax'}
+      'mathjax-config'       : {deps:['mathjax'],exports:'MathJax'},
+      'mathjax-locale'       : {deps:['mathjax-config'],exports:'MathJax'}
     },
     map:
     {
@@ -189,11 +191,16 @@ MathJax.Hub.Config(
         mkd = box.data('markdown');
     require(['marked'],function(marked)
     {
-      box.html(marked(mkd));
+      var rer = new marked.Renderer();
+      rer.heading = function(txt,lvl)
+      {
+        var _id = txt;
+        return '<h' + lvl + ' id="' + _id + '">' + txt + '</h' + lvl + '>';
+      };
+      box.html(marked(mkd,{renderer:rer}));
       box.trigger('parse.code')
          .trigger('parse.todo')
          .trigger('parse.latex');
-      console.log({markdown:box,html:box.html()});
     });
     return false;
   })
@@ -208,7 +215,6 @@ MathJax.Hub.Config(
       window.prettyPrint && prettyPrint();
       box.trigger('parse.flowchart')
          .trigger('parse.other');
-      console.log({markdown:box,html:box.html()});
     });
     return false;
   })
@@ -225,7 +231,6 @@ MathJax.Hub.Config(
         the.empty();
         flowchart.parse(str).drawSVG(the[0]);
       });
-      console.log({markdown:box,html:box.html()});
     });
     return false;
   })
@@ -244,14 +249,13 @@ MathJax.Hub.Config(
             old = arr[1] || arr[2] || '';
         if(old)
         {
-          tex = old.replace(/<em\b[^>]*>/gi,'_');
+          tex = old.replace(/<\/?em\b[^>]*>/gi,'_');
           htm = htm.replace(old,tex);
-          console.log([old,tex,htm]);
           the.html(htm);
         }
       });
+      window.MathJax && MathJax.Localization.setLocale('zh-hans');
       window.MathJax && MathJax.Hub.Queue(['Typeset',MathJax.Hub,box[0]]);
-      console.log({markdown:box,html:box.html()});
     });
     return false;
   })
