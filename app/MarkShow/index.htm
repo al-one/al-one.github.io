@@ -45,8 +45,15 @@ document.createElement('ng:include');document.createElement('ng:pluralize');docu
     <div ng-bind-html="MarkShow | str2htm"></div>
   </div>
 </div>
-
 <div class="an-loading" ng-show="!!isLoading"><i class="fa fa-spinner fa-spin fa-3x"></i></div>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config(
+{
+  tex2jax:{inlineMath:[['$','$'], ['\\(','\\)']],processEscapes:true},
+  TeX:{equationNumbers:{autoNumber:'AMS'}},messageStyle:'none'
+});
+</script>
 <script>window.require || document.write('<script src="http://cdn.bootcss.com/require.js/2.1.11/require.min.js" charset="utf-8"><\/script>');</script>
 <script>//window.jQuery || document.write('<script src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js" charset="utf-8"><\/script>');</script>
 <script>//window.angular || document.write('<script src="http://cdn.bootcss.com/angular.js/1.3.15/angular.min.js" charset="utf-8"><\/script>');</script>
@@ -91,6 +98,8 @@ document.createElement('ng:include');document.createElement('ng:pluralize');docu
       'raphael'              : cdn + 'raphael/2.1.4/raphael-min',
       'prettify'             : cdn + 'prettify/r298/prettify.min',
       'flowchart'            : cdn + 'flowchart/1.4.2/flowchart.amd',
+      'mathjax'              : cdn + 'mathjax/2.6.0-beta.1/MathJax',
+      'mathjax-config'       : cdn + 'mathjax/2.6.0-beta.1/config/TeX-AMS-MML_HTMLorMML',
       'zybuluo-css-lib'      : '//www.zybuluo.com/static/assets/1bc053c8.base.lib.min',
       'zybuluo-css-layout'   : '//www.zybuluo.com/static/assets/mdeditor/a793fd3f.layout.min',
       'zybuluo-css-code'     : '//www.zybuluo.com/static/editor/libs/google-code-prettify/desert-cmd',
@@ -104,7 +113,9 @@ document.createElement('ng:include');document.createElement('ng:pluralize');docu
       'angular-animate'      : {deps:['angular'],exports:'ngAnimate'},
       'angular-ui-bootstrap' : {deps:['angular','angular-touch','angular-animate','bootstrap','css!bootstrap-css']},
       'nprogress'            : {deps:['css!nprogress'],exports:'NProgress'},
-      'flowchart'            : {deps:['raphael'],exports:'flowchart'}
+      'flowchart'            : {deps:['raphael'],exports:'flowchart'},
+      'mathjax'              : {exports:'MathJax'},
+      'mathjax-config'       : {deps:['mathjax'],exports:'MathJax'}
     },
     map:
     {
@@ -115,6 +126,30 @@ document.createElement('ng:include');document.createElement('ng:pluralize');docu
   // - jQuery
   require(['jquery'],function($)
   {
+    // 正则筛选
+    $.expr[':'].regexp = function(ele,i,sel)
+    {
+      var pat = (sel || [])[3] || '',
+          arr = /^\/([^]+)\/([a-z]*)$/i.exec(pat) || [],
+          reg = arr[0] ? new RegExp(arr[1],arr[2] || '') : new RegExp(pat);
+      return (ele.innerHTML || '').match(reg) ? true : false;
+    };
+    // jQuery倒序
+    $.fn.reverse || ($.fn.reverse = function()
+    {
+      return this.sort(function(){ return 1; });
+    });
+    // 最深的元素
+    $.fn.deepest || ($.fn.deepest = function()
+    {
+      var old = this.reverse(),
+          obj = $();
+      old.each(function()
+      {
+        if($(this).has(old).length == 0) obj.push(this);
+      });
+      return this.pushStack(obj);
+    });
     $(ready);
 
     // - Angular
@@ -145,6 +180,104 @@ document.createElement('ng:include');document.createElement('ng:pluralize');docu
     {
       NProgress.done();
     });
+  });
+
+  body
+  .on('parse.markdown','*',function()
+  {
+    var box = $(this),
+        mkd = box.data('markdown');
+    require(['marked'],function(marked)
+    {
+      box.html(marked(mkd));
+      box.trigger('parse.code')
+         .trigger('parse.todo')
+         .trigger('parse.latex');
+      console.log({markdown:box,html:box.html()});
+    });
+    return false;
+  })
+  .on('parse.code','*',function()
+  {
+    var box = $(this),
+        htm = box.html();
+    require(['prettify'],function()
+    {
+      box.find('pre').filter(':has(.lang-flow),:contains("```flow")').addClass('prettify-no');
+      box.find('pre:not(.prettify-no)').addClass('prettyprint linenums');
+      window.prettyPrint && prettyPrint();
+      box.trigger('parse.flowchart')
+         .trigger('parse.other');
+      console.log({markdown:box,html:box.html()});
+    });
+    return false;
+  })
+  .on('parse.flowchart','*',function()
+  {
+    var box = $(this),
+        htm = box.html();
+    require(['flowchart'],function(flowchart)
+    {
+      box.find('.lang-flow').each(function(i)
+      {
+        var the = $(this),
+            str = the.text();//$('<div>').html(the.text()).text();
+        the.empty();
+        flowchart.parse(str).drawSVG(the[0]);
+      });
+      console.log({markdown:box,html:box.html()});
+    });
+    return false;
+  })
+  .on('parse.latex','*',function()
+  {
+    var box = $(this);
+    require(['mathjax-config'],function()
+    {
+      var lst = box.find(':contains($):has(> em)');
+      lst.each(function(i)
+      {
+        var the = $(this),
+            htm = the.html(),
+            reg = /^\s*\$\$([^]+?)\$\$\s*$|\$(.+?)\$/gi,
+            arr = reg.exec(htm) || [],
+            old = arr[1] || arr[2] || '';
+        if(old)
+        {
+          tex = old.replace(/<em\b[^>]*>/gi,'_');
+          htm = htm.replace(old,tex);
+          console.log([old,tex,htm]);
+          the.html(htm);
+        }
+      });
+      window.MathJax && MathJax.Hub.Queue(['Typeset',MathJax.Hub,box[0]]);
+      console.log({markdown:box,html:box.html()});
+    });
+    return false;
+  })
+  .on('parse.todo','*',function()
+  {
+    var box = $(this),
+        htm = box.html();
+    $($.makeArray(box.find('li').filter(':contains("[ ]"),:contains("[x]")')).reverse())
+    .html(function()
+    {
+      var the = $(this),
+          htm = the.html();
+      htm = htm.replace(/^(\s*)\[ \]/g,'$1<i class="icon-check-empty"></i>')
+               .replace(/^(\s*)\[x\]/g,'$1<i class="icon-check-sign"></i>');
+      return htm;
+    });
+    return false;
+  })
+  .on('parse.other','*',function()
+  {
+    var box = $(this),
+        htm = box.html();
+    box.find('blockquote').addClass('black-blockquote');
+    box.find('code:not(pre code)').addClass('code-black');
+    box.find('table').addClass('table table-striped-black table-bordered');
+    return false;
   });
 
   return $;
@@ -239,7 +372,7 @@ function()
       }
       else
       {
-        require(['marked','flowchart','prettify'],function(marked,flowchart)
+        (function()
         {
           var url = './data/' + $scope.route.path;
           if(/[\/\\]$/i.test(url)) url += 'README.md';
@@ -248,38 +381,18 @@ function()
           .then(function(ret)
           {
             var mkd = ret.data || '',
-                htm = marked(mkd),
+                htm = mkd,
                 box = $('<div>').attr('id','wmd-preview').addClass('wmd-preview wmd-preview-full-reader');
-            box.html(htm);
-            box.find('pre').filter(':has(.lang-flow),:contains("```flow")').addClass('prettify-no');
-            box.find('pre:not(.prettify-no)').addClass('prettyprint linenums');
-            box.find('blockquote').addClass('black-blockquote');
-            box.find('code:not(pre code)').addClass('code-black');
-            box.find('table').addClass('table table-striped-black table-bordered');
-            $($.makeArray(box.find('li').filter(':contains("[ ]"),:contains("[x]")')).reverse())
-            .html(function()
-            {
-              var the = $(this),
-                  htm = the.html();
-              htm = htm.replace(/^(\s*)\[ \]/g,'$1<i class="icon-check-empty"></i>')
-                       .replace(/^(\s*)\[x\]/g,'$1<i class="icon-check-sign"></i>');
-              return htm;
-            });
+            //box.html(htm);
             $scope.MarkShow = box.prop('outerHTML');
             require(['css!zybuluo-css-lib','css!zybuluo-css-layout','css!zybuluo-css-code'],function()
             {
-              window.prettyPrint && prettyPrint();
-              $('.lang-flow').each(function(i)
-              {
-                var the = $(this),
-                    str = the.text();
-                the.empty();
-                flowchart.parse(str).drawSVG(the[0]);
-              });
+              var box = $($('#wmd-preview')[0] || $('<div/>')[0]);
+              box.data('markdown',mkd).trigger('parse.markdown');
             });
             $scope.ajaxComplete();
           },$scope.ajaxComplete);
-        });
+        })();
       }
     };
 
