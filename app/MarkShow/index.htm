@@ -197,7 +197,7 @@ MathJax.Hub.Config(
       var rer = new marked.Renderer();
       rer.heading = function(txt,lvl)
       {
-        var _id = txt;
+        var _id = marked(txt).replace(/<[^>]+>/gi,'');
         return '<h' + lvl + ' id="' + _id + '">' + txt + '</h' + lvl + '>';
       };
       box.html(marked(mkd,{renderer:rer}));
@@ -279,8 +279,8 @@ MathJax.Hub.Config(
           the.html(htm);
         }
       });
-      window.MathJax && MathJax.Localization.setLocale('zh-hans');
-      window.MathJax && MathJax.Hub.Queue(['Typeset',MathJax.Hub,box[0]]);
+      window.MathJax && MathJax.Localization.setLocale('zh-hans'),
+                        MathJax.Hub.Queue(['Typeset',MathJax.Hub,box[0]]);
     });
     return false;
   })
@@ -288,10 +288,10 @@ MathJax.Hub.Config(
   {
     var box = $(this),
         htm = box.html();
-    $($.makeArray(box.find('li').filter(':contains("[ ]"),:contains("[x]")')).reverse())
+    box.find('li:regexp(/\[[ x]\]/i)').reverse()
     .html(function()
     {
-      var the = $(this),
+      var the = $(this).addClass('todo-list-item'),
           htm = the.html();
       htm = htm.replace(/^(\s*)\[ \]/g,'$1<i class="icon-check-empty"></i>')
                .replace(/^(\s*)\[x\]/g,'$1<i class="icon-check-sign"></i>');
@@ -305,7 +305,7 @@ MathJax.Hub.Config(
         htm = box.html();
     box.find('blockquote').addClass('black-blockquote');
     box.find('code:not(pre code)').addClass('code-black');
-    box.find('table').addClass('table table-striped-black table-bordered');
+    box.find('table').addClass('table table-bordered table-striped-black');
     return false;
   });
 
