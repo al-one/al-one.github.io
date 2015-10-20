@@ -117,7 +117,7 @@ MathJax.Hub.Config(
       'angular-ui-bootstrap' : {deps:['angular','angular-touch','angular-animate','bootstrap','css!bootstrap-css']},
       'nprogress'            : {deps:['css!nprogress'],exports:'NProgress'},
       'flowchart'            : {deps:['raphael'],exports:'flowchart'},
-      'sequence-diagram'     : {deps:['raphael'],exports:'Diagram'},
+      'sequence-diagram'     : {deps:['raphael','underscore'],exports:'Diagram'},
       'mathjax'              : {exports:'MathJax'},
       'mathjax-config'       : {deps:['mathjax'],exports:'MathJax'},
       'mathjax-locale'       : {deps:['mathjax-config'],exports:'MathJax'}
@@ -217,6 +217,7 @@ MathJax.Hub.Config(
       box.find('pre:not(.prettify-no)').addClass('prettyprint linenums');
       window.prettyPrint && prettyPrint();
       box.trigger('parse.flowchart')
+         .trigger('parse.sequence')
          .trigger('parse.other');
     });
     return false;
@@ -231,7 +232,7 @@ MathJax.Hub.Config(
       {
         var the = $(this),
             str = the.text();//$('<div>').html(the.text()).text();
-        the.empty();
+        the.empty().addClass('flow-diagram theme theme-black');
         flowchart.parse(str).drawSVG(the[0]);
       });
     });
@@ -246,11 +247,11 @@ MathJax.Hub.Config(
       box.find('.lang-seq').each(function(i)
       {
         var the = $(this),
-            str = the.text();//$('<div>').html(the.text()).text();
-        the.empty();
-        Diagram.parse(str).drawSVG(the[0]);
+            str = the.text();
+        the.empty().addClass('sequence-diagram theme theme-black');
+        Diagram.parse(str).drawSVG(the[0],{theme:'simple'});
+        //the.sequenceDiagram({theme:'hand'});
       });
-      console.log({markdown:box,html:box.html()});
     });
     return false;
   })
