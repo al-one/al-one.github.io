@@ -82,8 +82,9 @@ MathJax.Hub.Config(
     paths:
     {
       'jquery'               : ['http://getapi.sinaapp.com/static/libs/jquery/1.11.1/jquery.min',cdn + 'jquery/1.11.1/jquery.min','http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min'],
-      'json2'                : cdn + 'json2/20150503/json2.min',
       'require-css'          : cdn + 'require-css/0.1.8/css.min',
+      'json2'                : cdn + 'json2/20150503/json2.min',
+      'underscore'           : cdn + 'underscore.js/1.8.3/underscore-min',
       'bootstrap'            : cdn + 'twitter-bootstrap/3.3.4/js/bootstrap.min',
       'bootstrap-css'        : cdn + 'twitter-bootstrap/3.3.4/css/bootstrap.min',
       'angular'              : cdn + 'angular.js/1.3.15/angular.min',
@@ -95,9 +96,10 @@ MathJax.Hub.Config(
       'font-awesome'         : cdn + 'font-awesome/4.3.0/css/font-awesome.min',
       'nprogress'            : cdn + 'nprogress/0.2.0/nprogress.min',
       'marked'               : cdn + 'marked/0.3.5/marked.min',
-      'raphael'              : cdn + 'raphael/2.1.4/raphael-min',
       'prettify'             : cdn + 'prettify/r298/prettify.min',
+      'raphael'              : cdn + 'raphael/2.1.4/raphael-min',
       'flowchart'            : cdn + 'flowchart/1.4.2/flowchart.amd',
+      'sequence-diagram'     : cdn + 'js-sequence-diagrams/1.0.6/sequence-diagram-min',
       'mathjax'              : cdn + 'mathjax/2.6.0-beta.1/MathJax',
       'mathjax-config'       : cdn + 'mathjax/2.6.0-beta.1/config/TeX-AMS-MML_HTMLorMML',
       'zybuluo-css-lib'      : '//www.zybuluo.com/static/assets/1bc053c8.base.lib.min',
@@ -114,6 +116,7 @@ MathJax.Hub.Config(
       'angular-ui-bootstrap' : {deps:['angular','angular-touch','angular-animate','bootstrap','css!bootstrap-css']},
       'nprogress'            : {deps:['css!nprogress'],exports:'NProgress'},
       'flowchart'            : {deps:['raphael'],exports:'flowchart'},
+      'sequence-diagram'     : {deps:['raphael'],exports:'Diagram'},
       'mathjax'              : {exports:'MathJax'},
       'mathjax-config'       : {deps:['mathjax'],exports:'MathJax'}
     },
@@ -203,7 +206,7 @@ MathJax.Hub.Config(
         htm = box.html();
     require(['prettify'],function()
     {
-      box.find('pre').filter(':has(.lang-flow),:contains("```flow")').addClass('prettify-no');
+      box.find('pre').filter(':has(.lang-flow,.lang-seq),:contains("```flow"),:contains("```seq")').addClass('prettify-no');
       box.find('pre:not(.prettify-no)').addClass('prettyprint linenums');
       window.prettyPrint && prettyPrint();
       box.trigger('parse.flowchart')
@@ -224,6 +227,23 @@ MathJax.Hub.Config(
             str = the.text();//$('<div>').html(the.text()).text();
         the.empty();
         flowchart.parse(str).drawSVG(the[0]);
+      });
+      console.log({markdown:box,html:box.html()});
+    });
+    return false;
+  })
+  .on('parse.sequence','*',function()
+  {
+    var box = $(this),
+        htm = box.html();
+    require(['sequence-diagram'],function(Diagram)
+    {
+      box.find('.lang-seq').each(function(i)
+      {
+        var the = $(this),
+            str = the.text();//$('<div>').html(the.text()).text();
+        the.empty();
+        Diagram.parse(str).drawSVG(the[0]);
       });
       console.log({markdown:box,html:box.html()});
     });
