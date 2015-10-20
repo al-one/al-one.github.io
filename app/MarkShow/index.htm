@@ -231,9 +231,11 @@ MathJax.Hub.Config(
       box.find('.lang-flow').each(function(i)
       {
         var the = $(this),
+            pre = the.parent('pre').length ? the.parent('pre') : the,
+            box = $('<div/>').insertAfter(pre.hide()),
             str = the.text();//$('<div>').html(the.text()).text();
-        the.empty().addClass('flow-diagram theme theme-black');
-        flowchart.parse(str).drawSVG(the[0]);
+        box.addClass('flow-diagram theme theme-black');
+        flowchart.parse(str).drawSVG(box[0]);
       });
     });
     return false;
@@ -247,10 +249,12 @@ MathJax.Hub.Config(
       box.find('.lang-seq').each(function(i)
       {
         var the = $(this),
+            pre = the.parent('pre').length ? the.parent('pre') : the,
+            box = $('<div/>').insertAfter(pre.hide()),
             str = the.text();
-        the.empty().addClass('sequence-diagram theme theme-black');
-        Diagram.parse(str).drawSVG(the[0],{theme:'simple'});
-        //the.sequenceDiagram({theme:'hand'});
+        box.addClass('sequence-diagram theme theme-black');
+        Diagram.parse(str).drawSVG(box[0],{theme:'simple'});
+        //box.sequenceDiagram({theme:'hand'});
       });
     });
     return false;
