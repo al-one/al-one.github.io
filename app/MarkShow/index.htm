@@ -136,9 +136,22 @@ MathJax.Hub.Config(
     {
       var pat = (sel || [])[3] || '',
           arr = /^\/([^]+)\/([a-z]*)$/i.exec(pat) || [],
-          reg = arr[0] ? new RegExp(arr[1],arr[2] || '') : new RegExp(pat);
+          exp = arr[1] || '',
+          mod = arr[2] || '',
+          reg = mod ? new RegExp(exp,mod) : new RegExp(pat);
+      window[pat] || console.log([pat,arr,exp,reg]),window[pat] = 1;
       return (ele.innerHTML || '').match(reg) ? true : false;
     };
+    $.fn.regexp || ($.fn.regexp = function(reg)
+    {
+      var ret = $();
+      if($.type(reg) == 'regexp') this.each(function()
+      {
+        if((this.innerHTML || '').match(reg)) ret.push(this);
+      });
+      else ret = this.filter(':regexp(' + reg + ')');
+      return this.pushStack(ret);
+    });
     // jQuery倒序
     $.fn.reverse || ($.fn.reverse = function()
     {
@@ -147,13 +160,13 @@ MathJax.Hub.Config(
     // 最深的元素
     $.fn.deepest || ($.fn.deepest = function()
     {
-      var old = this.reverse(),
-          obj = $();
+      var old = this,
+          ret = $();
       old.each(function()
       {
-        if($(this).has(old).length == 0) obj.push(this);
+        if($(this).has(old).length == 0) ret.push(this);
       });
-      return this.pushStack(obj);
+      return this.pushStack(ret);
     });
     $(ready);
 
@@ -288,7 +301,7 @@ MathJax.Hub.Config(
   {
     var box = $(this),
         htm = box.html();
-    box.find('li:regexp(/\[[ x]\]/i)').reverse()
+    box.find('li:regexp(/\\[[ x]\\]/i)').reverse()
     .html(function()
     {
       var the = $(this).addClass('todo-list-item'),
