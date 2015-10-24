@@ -139,7 +139,7 @@ MathJax.Hub.Config(
           exp = arr[1] || '',
           mod = arr[2] || '',
           reg = mod ? new RegExp(exp,mod) : new RegExp(pat);
-      window[pat] || console.log([pat,arr,exp,reg]),window[pat] = 1;
+      //window[pat] || console.log([pat,arr,exp,reg]),window[pat] = 1;
       return (ele.innerHTML || '').match(reg) ? true : false;
     };
     $.fn.regexp || ($.fn.regexp = function(reg)
@@ -160,7 +160,8 @@ MathJax.Hub.Config(
     // 最深的元素
     $.fn.deepest || ($.fn.deepest = function()
     {
-      var old = this,
+      var sel = argument[0] || '',
+          old = sel ? this.filter(sel) : this,
           ret = $();
       old.each(function()
       {
@@ -216,6 +217,7 @@ MathJax.Hub.Config(
       box.html(marked(mkd,{renderer:rer}));
       box.trigger('parse.code')
          .trigger('parse.todo')
+         //.trigger('parse.toc')
          .trigger('parse.latex');
     });
     return false;
@@ -299,8 +301,7 @@ MathJax.Hub.Config(
   })
   .on('parse.todo','*',function()
   {
-    var box = $(this),
-        htm = box.html();
+    var box = $(this);
     box.find('li:regexp(/\\[[ x]\\]/i)').reverse()
     .html(function()
     {
@@ -309,6 +310,26 @@ MathJax.Hub.Config(
       htm = htm.replace(/^(\s*)\[ \]/g,'$1<i class="icon-check-empty"></i>')
                .replace(/^(\s*)\[x\]/g,'$1<i class="icon-check-sign"></i>');
       return htm;
+    });
+    return false;
+  })
+  .on('parse.toc','*',function()
+  {
+    var the = $(this),
+        hls = the.find('h1,h2,h3,h4,h5,h6'),
+        box = the.find(':contains([TOC])').add(the.filter(':contains([TOC])')).deepest(':not(pre,code)'),
+        div = $('<div/>').addClass('toc'),
+        toc = {},
+        pre = $(),
+        plv = 0,
+        idx = 0;
+    hls.each(function(i)
+    {
+      var the = $(this),
+          lvl = parseInt((/H([1-6])/i.exec(the.prop('tagName') || '') || [])[1] || '') || 1;
+      if(lvl <= plv) idx = 0;
+      pre = the;
+      plv = lvl;
     });
     return false;
   })
