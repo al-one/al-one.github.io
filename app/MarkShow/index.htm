@@ -422,6 +422,11 @@ function()
           arr = reg.exec(par) || [];
       $scope.route.src  = arr[1] || '';
       $scope.route.path = arr[2] || '';
+      if(!$scope.route.src && !$scope.route.path)
+      {
+        $scope.route.src  = 'index';
+        $scope.route.path = './';
+      }
       //console.log($scope.route);
       return $scope.route;
     };
