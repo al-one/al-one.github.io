@@ -46,7 +46,7 @@ document.createElement('ng:include');document.createElement('ng:pluralize');docu
   <div class="container-fluid" ng-init="init()">
     <div id="content" ng-bind-html="MarkShow | str2htm"></div>
   </div>
-  <div class="in-page-preview-buttons in-page-preview-buttons-full-reader">
+  <div class="ms-toolbar in-page-preview-buttons in-page-preview-buttons-full-reader hide">
     <ul>
       <li id="preview-toc-button" class="in-page-button dropdown">
         <span data-toggle="dropdown" class="dropdown-toggle icon-list" style="color:rgba(187,187,187,.45);"></span>
@@ -467,6 +467,7 @@ function()
             {
               var box = $($('#wmd-preview')[0] || $('<div/>')[0]);
               box.data('markdown',mkd).trigger('parse.markdown');
+              $('.ms-toolbar.hide').removeClass('hide');
             });
             $scope.ajaxComplete();
           },$scope.ajaxComplete);
