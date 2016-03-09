@@ -24,6 +24,8 @@ td:last-child .dropdown-menu { left:auto; right:0; min-width:inherit; }
 .panel .pagination { margin:0; }
 input.date-range { min-width:200px; }
 .daterangepicker .ranges li { float:left; width:75px; margin-right:5px; }
+.toc .toc-h2 { padding-left:1em; }
+.toc .toc-h3 { padding-left:2em; }
 .an-loading { position:fixed; bottom:10px; right:10px; float:left; display-:none; color:#888; opacity:.6; }
 </style>
 <script>var isIE = 0;</script>
@@ -42,7 +44,19 @@ document.createElement('ng:include');document.createElement('ng:pluralize');docu
 <body class="theme theme-black">
 <div id="doc">
   <div class="container-fluid" ng-init="init()">
-    <div ng-bind-html="MarkShow | str2htm"></div>
+    <div id="content" ng-bind-html="MarkShow | str2htm"></div>
+  </div>
+  <div class="in-page-preview-buttons in-page-preview-buttons-full-reader">
+    <ul>
+      <li id="preview-toc-button" class="in-page-button dropdown">
+        <span data-toggle="dropdown" class="dropdown-toggle icon-list" style="color:rgba(187,187,187,.45);"></span>
+        <div id="toc-list" class="dropdown-menu pull-right theme theme-black">
+          <h3>内容目录</h3>
+          <hr>
+          <div class="table-of-contents"></div>
+        </div>
+      </li>
+    </ul>
   </div>
 </div>
 <div class="an-loading" ng-show="!!isLoading"><i class="fa fa-spinner fa-spin fa-3x"></i></div>
@@ -96,6 +110,7 @@ MathJax.Hub.Config(
       'font-awesome'         : cdn + 'font-awesome/4.3.0/css/font-awesome.min',
       'nprogress'            : cdn + 'nprogress/0.2.0/nprogress.min',
       'marked'               : cdn + 'marked/0.3.5/marked.min',
+      'toc'                  : cdn + 'toc/0.3.2/toc.min',
       'prettify'             : cdn + 'prettify/r298/prettify.min',
       'raphael'              : cdn + 'raphael/2.1.4/raphael-min',
       'flowchart'            : cdn + 'flowchart/1.4.2/flowchart.amd',
@@ -103,9 +118,9 @@ MathJax.Hub.Config(
       'mathjax'              : cdn + 'mathjax/2.6.0-beta.1/MathJax',
       'mathjax-config'       : cdn + 'mathjax/2.6.0-beta.1/config/TeX-AMS-MML_HTMLorMML',
       'mathjax-locale'       : cdn + 'mathjax/2.6.0-beta.1/localization/zh-hans/zh-hans',
-      'zybuluo-css-lib'      : '//www.zybuluo.com/static/assets/1bc053c8.base.lib.min',
-      'zybuluo-css-layout'   : '//www.zybuluo.com/static/assets/mdeditor/a793fd3f.layout.min',
-      'zybuluo-css-code'     : '//www.zybuluo.com/static/editor/libs/google-code-prettify/desert-cmd'
+      'zybuluo-css-lib'      : '//al-one.github.com/static/css/MarkShow/1bc053c8.base.lib.min',
+      'zybuluo-css-layout'   : '//al-one.github.com/static/css/MarkShow/79228b55.layout.min',
+      'zybuluo-css-code'     : '//al-one.github.com/static/css/MarkShow/google-code-prettify/desert-cmd'
     },
     shim:
     {
@@ -116,6 +131,7 @@ MathJax.Hub.Config(
       'angular-animate'      : {deps:['angular'],exports:'ngAnimate'},
       'angular-ui-bootstrap' : {deps:['angular','angular-touch','angular-animate','bootstrap','css!bootstrap-css']},
       'nprogress'            : {deps:['css!nprogress'],exports:'NProgress'},
+      'toc'                  : {deps:['jquery'],exports:'jQuery.fn.toc'},
       'flowchart'            : {deps:['raphael'],exports:'flowchart'},
       'sequence-diagram'     : {deps:['raphael','underscore'],exports:'Diagram'},
       'mathjax'              : {exports:'MathJax'},
@@ -160,7 +176,7 @@ MathJax.Hub.Config(
     // 最深的元素
     $.fn.deepest || ($.fn.deepest = function()
     {
-      var sel = argument[0] || '',
+      var sel = arguments[0] || '',
           old = sel ? this.filter(sel) : this,
           ret = $();
       old.each(function()
@@ -211,13 +227,13 @@ MathJax.Hub.Config(
       var rer = new marked.Renderer();
       rer.heading = function(txt,lvl)
       {
-        var _id = marked(txt).replace(/<[^>]+>/gi,'');
+        var _id = marked(txt).replace(/<[^>]+>|[#.\[\]\s\/\\>+~]+/gi,'-');
         return '<h' + lvl + ' id="' + _id + '">' + txt + '</h' + lvl + '>';
       };
       box.html(marked(mkd,{renderer:rer}));
       box.trigger('parse.code')
          .trigger('parse.todo')
-         //.trigger('parse.toc')
+         .trigger('parse.toc')
          .trigger('parse.latex');
     });
     return false;
@@ -317,19 +333,13 @@ MathJax.Hub.Config(
   {
     var the = $(this),
         hls = the.find('h1,h2,h3,h4,h5,h6'),
-        box = the.find(':contains([TOC])').add(the.filter(':contains([TOC])')).deepest(':not(pre,code)'),
-        div = $('<div/>').addClass('toc'),
-        toc = {},
-        pre = $(),
-        plv = 0,
-        idx = 0;
-    hls.each(function(i)
+        box = the.find(':contains([TOC])').add(the.filter(':contains([TOC])')).deepest().not('pre,code'),
+        div = $('<div/>').addClass('toc');
+    require(['toc'],function()
     {
-      var the = $(this),
-          lvl = parseInt((/H([1-6])/i.exec(the.prop('tagName') || '') || [])[1] || '') || 1;
-      if(lvl <= plv) idx = 0;
-      pre = the;
-      plv = lvl;
+      var cfg = {container:'#content'};
+      box.html(div.clone().toc(cfg));
+      $('#toc-list .table-of-contents').html(div.clone().toc(cfg));
     });
     return false;
   })
@@ -446,7 +456,7 @@ function()
             var mkd = ret.data || '',
                 htm = mkd,
                 box = $('<div>').attr('id','wmd-preview').addClass('wmd-preview wmd-preview-full-reader');
-            //box.html(htm);
+            box.html(htm);
             $scope.MarkShow = box.prop('outerHTML');
             require(['css!zybuluo-css-lib','css!zybuluo-css-layout','css!zybuluo-css-code'],function()
             {
