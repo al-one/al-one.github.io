@@ -227,7 +227,7 @@ MathJax.Hub.Config(
       var rer = new marked.Renderer();
       rer.heading = function(txt,lvl)
       {
-        var _id = marked(txt).replace(/<[^>]+>|[#.\[\]\s\/\\>+~]+/gi,'-');
+        var _id = $.trim(txt).replace(/<[^>]+>|[#.\[\]\s\/\\>+~]+/gi,'-');
         return '<h' + lvl + ' id="' + _id + '">' + txt + '</h' + lvl + '>';
       };
       box.html(marked(mkd,{renderer:rer}));
@@ -340,11 +340,6 @@ MathJax.Hub.Config(
       var cfg = {container:'#content'};
       box.html(div.clone().toc(cfg));
       $('#toc-list .table-of-contents').html(div.clone().toc(cfg));
-      location.hash && (function()
-      {
-        var tar = $(decodeURIComponent(location.hash));
-        tar.length && $('html,body').animate({scrollTop:tar.offset().top || 0},1000);
-      })();
     });
     return false;
   })
@@ -465,14 +460,22 @@ function()
           {
             var mkd = ret.data || '',
                 htm = mkd,
-                box = $('<div>').attr('id','wmd-preview').addClass('wmd-preview wmd-preview-full-reader');
-            box.html(htm);
-            $scope.MarkShow = box.prop('outerHTML');
-            require(['css!zybuluo-css-lib','css!zybuluo-css-layout','css!zybuluo-css-code'],function()
+                div = $('<div>').attr('id','wmd-preview').addClass('wmd-preview wmd-preview-full-reader');
+            div.html(htm);
+            $scope.MarkShow = div.prop('outerHTML');
+            setTimeout(function()
             {
               var box = $($('#wmd-preview')[0] || $('<div/>')[0]);
               box.data('markdown',mkd).trigger('parse.markdown');
+            },10);
+            require(['css!zybuluo-css-lib','css!zybuluo-css-layout','css!zybuluo-css-code'],function()
+            {
               $('.ms-toolbar.hide').removeClass('hide');
+              location.hash && (function()
+              {
+                var tar = $(decodeURIComponent(location.hash));
+                tar.length && $('html,body').animate({scrollTop:tar.offset().top || 0},500);
+              })();
             });
             $scope.ajaxComplete();
           },$scope.ajaxComplete);
