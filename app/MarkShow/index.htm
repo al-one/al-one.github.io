@@ -340,6 +340,11 @@ MathJax.Hub.Config(
       var cfg = {container:'#content'};
       box.html(div.clone().toc(cfg));
       $('#toc-list .table-of-contents').html(div.clone().toc(cfg));
+      location.hash && (function()
+      {
+        var tar = $(decodeURIComponent(location.hash));
+        tar.length && $('html,body').animate({scrollTop:tar.offset().top || 0},1000);
+      })();
     });
     return false;
   })
