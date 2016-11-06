@@ -454,6 +454,7 @@ function()
         {
           var url = './data/' + $scope.route.path;
           if(/[\/\\]$/i.test(url)) url += 'README.md';
+          url += (/\?/.test(url) ? '&' : '?') + '_=' + (new Date).getTime();
           $scope.ajaxStart();
           $http.get(url)
           .then(function(ret)
@@ -462,6 +463,7 @@ function()
                 htm = mkd,
                 div = $('<div>').attr('id','wmd-preview').addClass('wmd-preview wmd-preview-full-reader');
             div.html(htm);
+            $scope.title = $scope.route.path;
             $scope.MarkShow = div.prop('outerHTML');
             setTimeout(function()
             {
