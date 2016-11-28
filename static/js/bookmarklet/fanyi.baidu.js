@@ -97,7 +97,7 @@ function($)
           {
             var rls = ['<li>'];
             rls.push(mv.pre + ' ');
-            rls.push(keys(mv.cont).join('; '));
+            rls.push(Object.keys(mv.cont || {}).join('; '));
             rls.push('</li>');
             $(rls.join('')).appendTo(box.find('.anfy-bd ul'));
           });
