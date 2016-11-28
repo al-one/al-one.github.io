@@ -96,7 +96,8 @@ function($)
           $.each(v.mean || [],function(mi,mv)
           {
             var rls = ['<li>'];
-            rls.push(mv.pre + ' ');
+            rls.push(mv.pre || '');
+            rls.push(' ');
             rls.push(Object.keys(mv.cont || {}).join('; '));
             rls.push('</li>');
             $(rls.join('')).appendTo(box.find('.anfy-bd ul'));
