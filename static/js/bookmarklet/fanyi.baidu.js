@@ -149,6 +149,6 @@ function($)
   if(!box.length)
   {
     box = $('<div class="anfy-box"><div class="anfy-hd"><input class="anfy-ipt"></div><div class="anfy-bd"></div></div>').appendTo('body');
-    $('head').append('<style>.anfy-box { position:absolute; top:0; left:0; display:none; max-width:480px; padding:5px; border:1px solid rgba(0,0,0,.2); border-radius:.5em; background:#fff; transition:opacity .218s; box-shadow:5px 5px 15px rgba(0,0,0,.2); font-size:12px; line-height:20px; z-index:1; } .anfy-box .anfy-ipt { width:100%; } .anfy-box ul { margin:0; padding-left:20px; }</style>');
+    $('head').append('<style>.anfy-box { position:absolute; top:0; left:0; display:none; max-width:480px; padding:5px; border:1px solid rgba(0,0,0,.2); border-radius:.5em; color:#111; background:#fff; transition:opacity .218s; box-shadow:5px 5px 15px rgba(0,0,0,.2); font-size:12px; line-height:20px; z-index:1; } .anfy-box .anfy-ipt { width:100%; } .anfy-box ul { margin:0; padding-left:20px; }</style>');
   }
 });
