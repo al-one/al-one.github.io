@@ -111,13 +111,22 @@ function($)
         sel = window.getSelection(),
         txt = $.trim(sel.toString()),
         ost = the.offset();
+    if($(evt.target).closest('.anfy-box').length) return false;
     lft = evt.pageX - ost.left;
     top = evt.pageY - ost.top;
-    if(txt && txt != pre)
+    /\s/.test(txt) || (txt = txt.replace(/(.)(?=[A-Z][a-z]+)/g,'$1 ').replace(/([^A-Z])(?=[A-Z]{2,})/g,'$1 '));
+    if(txt)
     {
-      box.stop(true,true).css({top:top + 16,left:lft,width:'auto',height:'auto'});
-      trans(txt);
-      pre = txt;
+      if(txt != pre)
+      {
+        box.stop(true,true).css({top:top + 16,left:lft,width:'auto',height:'auto'});
+        trans(txt);
+        pre = txt;
+      }
+      else setTimeout(function()
+      {
+        box.stop(true,true).show();
+      },500);
     }
   })
   .on('keyup','.anfy-ipt',function(evt)
