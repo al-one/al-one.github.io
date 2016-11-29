@@ -95,7 +95,7 @@ function($)
         cfg || (cfg = {});
         cfg.dataType || (cfg.dataType = 'jsonp');
         var typ = cfg.retType || 'json';
-        cfg.url = 'http://getapi.sinaapp.com/http/?callback=?&type=' + typ + '&url=' + encodeURIComponent(url);
+        cfg.url = '//getapi.sinaapp.com/http/?callback=?&type=' + typ + '&url=' + encodeURIComponent(url);
         if(cfg.data)
         {
           cfg.url += '&data=' + encodeURIComponent(typeof cfg.data === 'object' ? $.param(cfg.data) : cfg.data);
