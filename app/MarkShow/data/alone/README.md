@@ -20,10 +20,17 @@
 # 工作经历
 
 ## 上海三叉戟信息科技有限公司 （2016年10月 ~ 至今）
-### [烈火APP](#)
-- 负责烈火直播APP服务端开发；
+
+### [烈火直播APP](#)
 - 新需求分析、数据表设计及IM协议定义；
-- 幸运礼物、热门排序、直播云接入等核心技术开发；
+- 微信公众号充值钻石；
+- 热门直播自动排序及后台手动排序算法；
+- 幸运礼物算法实现 赠送指定礼物有机会获得钻石翻倍奖励；
+- 主播家族及成员业绩、收益统计结算；
+- 转盘抽奖、押注等H5游戏接口；
+- 七牛、金山直播云及连麦互动服务端接入；
+- 新增、日活、留存等数据分渠道分设备异步统计分析；
+- 各接口优化及历史遗留问题修复；
 - 负载均衡、环境配置调优、高并发接口优化等；
 
 
@@ -36,17 +43,17 @@
 - 用户行为数据统计报表展示；
 
 ### [烈火APP相关API接口](#)
- - 用户付费充值相关接口：
-     - 用户钻石、魅力值等账户数据内部接口；
-     - 支付宝、微信充值及提现；
-     - 福袋、宝箱（类似抢红包）相关接口；
-     - 一对一礼物、直播礼物接口；
- - 视频直播相关接口：
-     - 直播喇叭、热门票等道具相关接口；
-     - 直播任务奖励相关接口；
-     - 观众贡献榜单排行等接口；
- - 各类专题活动相关接口及H5页面；
- - APP直传OSS相关接口；
+- 用户付费充值相关接口：
+    - 用户钻石、魅力值等账户数据内部接口；
+    - 支付宝、微信充值及提现；
+    - 福袋、宝箱（类似抢红包）相关接口；
+    - 一对一礼物、直播礼物接口；
+- 视频直播相关接口：
+    - 直播喇叭、热门票等道具相关接口；
+    - 直播任务奖励相关接口；
+    - 观众贡献榜单排行等接口；
+- 各类专题活动相关接口及H5页面；
+- APP直传OSS相关接口；
 
 
 ## 合肥一浪网络科技有限公司 （2013年3月 ~ 2015年4月）
@@ -76,16 +83,16 @@
 
 ## 开源项目
 
- - [parse_urls](http://github.com/al-one/parse_urls) : 正则表达式解析任何格式的URL，PHP和JS版
- - [array2](http://github.com/al-one/array2) : Asp键值对数组，Json编码解析
- - [ANCMS](http://www.ancms.cn/) : 安安网站内容管理系统，Asp+Access
+ - [laravel-soft-deletes-unix](https://packagist.org/packages/al-one/laravel-soft-deletes-unix) : Laravel软删除使用Unix时间戳
+ - [parse_urls](https://github.com/al-one/parse_urls) : 正则表达式解析任何格式的URL，PHP和JS版
+ - [array2](https://github.com/al-one/array2) : Asp键值对数组，Json编码解析
+ - [ANCMS](http://www.ancms.cn/) : 安安网站内容管理系统，Asp + Access
 
 ## 业余作品
 
- - [自助友情链接交换平台](http://link.an56.org/) : 后端使用ThinkPHP 3.2.3开发；前端使用Bootstrap框架。
  - [MarkShow](http://al-one.github.io/app/MarkShow/?/md/help.md) : Markdown扩展解析，支持LaTeX公式、流程图等
- - [aGoogle](http://app.an56.org/aGoogle/) : 谷歌搜索，RequireJS + Angular + Bootstrap
- - [CKEditor表情插件](http://app.an56.org/ckeditor/) : 百度UEditor表情插件移植到CKEditor
+ - [aGoogle](http://app.an56.org/aGoogle/) : 谷歌搜索，RequireJS + AngularJS + Bootstrap
+ - [CKEditor表情插件](http://app.ah.cn/app/ckeditor/) : 百度UEditor表情插件移植到CKEditor
  - [DNSPod域名解析管理](http://app.ah.cn/app/AnDNS/) : 基于DNSpod API，实现域名解析功能
  - [卫星电视接收参数](http://app.an56.org/stv/)
  - [其他作品...](http://dwz.cn/alone-case)
@@ -94,10 +101,10 @@
 ---
 
 # 技能清单
-- Web开发：PHP / Golang / JavaScript
-- Web框架：ThinkPHP / Lumen
+- 开发语言：PHP / Golang / JavaScript
+- 后端框架：ThinkPHP / Laravel
 - 前端框架：jQuery / Bootstrap / Vue.js
-- 开发工具：Sublime Text / PHPStorm / Git / Firebug
+- 开发工具：PHPStorm / Sublime Text / Git / Firebug
 - 数据库相关：MySQL / Redis / SqLite / MSSQL
 - 云和开放平台：SAE / 支付宝 / QQ互联 / 微信公众平台
 
@@ -106,7 +113,7 @@
 
 # 自我描述
 - 熟练使用PHP开发网站应用，熟悉ThinkPHP、Laravel框架；
-- 熟悉Redis各种数据类型的读写操作及Linux常用命令；
+- 熟悉Redis各种数据类型的应用场景及Linux常用命令；
 - 熟悉MySQL数据库优化以及Git，SVN等协作工具；
 - 精通Web前端，熟练使用jQuery、Bootstrap、Vue.js；
 - 熟悉正则表达式、Markdown，喜欢接触新的技术；
