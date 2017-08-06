@@ -337,7 +337,15 @@ MathJax.Hub.Config(
         div = $('<div/>').addClass('toc');
     require(['toc'],function()
     {
-      var cfg = {container:'#content'};
+      var cfg =
+      {
+        container  : '#content',
+        anchorName : function(i,ele,prefix)
+        {
+          var _id = $.trim($(ele).text()).replace(/<[^>]+>|[#.\[\]\s\/\\>+~]+/gi,'-');
+          return _id;
+        }
+      };
       box.html(div.clone().toc(cfg));
       $('#toc-list .table-of-contents').html(div.clone().toc(cfg));
     });
