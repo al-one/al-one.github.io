@@ -11,7 +11,7 @@
 # 联系方式
 
 - 手机：183 5626 2256 （`安徽池州`）
-- Email：[Alone@an56.net](http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=E3J-fH12U3J9JiU9fXZn)
+- Email：[hi@anlo.ng](http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=E3J-fH12U3J9JiU9fXZn)
 - QQ号：11981261
 - 微信：al-one
 
@@ -19,7 +19,7 @@
 
 # 工作经历
 
-## 上海三叉戟信息科技有限公司 （2016年10月 ~ 至今）
+## 上海宇燕网络科技有限公司 （2016年10月 ~ 至今）
 
 ### [烈火直播APP](#)
 - 新需求分析、数据表设计及IM协议定义；
@@ -56,7 +56,7 @@
 - APP直传OSS相关接口；
 
 
-## 合肥一浪网络科技有限公司 （2013年3月 ~ 2015年4月）
+## 合肥一浪网络科技有限公司 （2013年3月 ~ 2015年2月）
 
 ### [客户管理系统](http://app.ah.cn/16crm/)
 - 演示账户：demo 密码：123456
