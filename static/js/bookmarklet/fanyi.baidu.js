@@ -9,7 +9,7 @@ function(window,ready)
 {
   var app =
   {
-    cdn : '//cdn.bootcss.com/',
+    cdn : '//cdnjs.cloudflare.com/ajax/libs/',
     ready : ready,
     getScript : function(src,cbk)
     {
