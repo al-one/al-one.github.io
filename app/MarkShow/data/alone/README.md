@@ -1,8 +1,8 @@
 # 个人简历
 
  - **安龙** / 男 / 1992-12 / 安徽池州
- - 工作年限：4年+
- - 最高学历：高中
+ - 工作年限：6年+
+ - 最高学历：大专
  - 期望城市：上海
  - 期望职位：PHP高级开发工程师
 
@@ -23,24 +23,18 @@
 
 ### [烈火直播APP](#)
 - 新需求分析、数据表设计及IM协议定义；
-- 微信公众号充值钻石；
+- 支付宝、微信公众号充值钻石；
 - 热门直播自动排序及后台手动排序算法；
 - 幸运礼物算法实现 赠送指定礼物有机会获得钻石翻倍奖励；
 - 主播家族及成员业绩、收益统计结算；
 - 转盘抽奖、押注等H5游戏接口；
-- 七牛、金山直播云及连麦互动服务端接入；
+- 七牛、UCloud、金山直播云及连麦互动服务端接入；
 - 新增、日活、留存等数据分渠道分设备异步统计分析；
-- 各接口优化及历史遗留问题修复；
+- 各接口、SQL优化及历史遗留问题修复；
 - 负载均衡、环境配置调优、高并发接口优化等；
 
 
 ## 上海欢愉网络科技有限公司 （2015年8月 ~ 2016年9月）
-
-### [烈火APP运营后台](#)
-- 整个运营后台独立开发完成；
-- 用户、照片、订单、直播等数据的监控展示；
-- 用户头像实时打分模块；
-- 用户行为数据统计报表展示；
 
 ### [烈火APP相关API接口](#)
 - 用户付费充值相关接口：
@@ -55,8 +49,16 @@
 - 各类专题活动相关接口及H5页面；
 - APP直传OSS相关接口；
 
+### [烈火APP运营后台](#)
+- 整个运营后台独立开发完成；
+- 用户、照片、订单、直播等数据的监控展示；
+- 用户头像实时打分模块；
+- 用户行为数据统计报表展示；
+
 
 ## 合肥一浪网络科技有限公司 （2013年3月 ~ 2015年2月）
+- 企业、政府、门户网站建设；
+- 为公司开发客户管理系统等；
 
 ### [客户管理系统](http://app.ah.cn/16crm/)
 - 演示账户：demo 密码：123456
@@ -64,8 +66,6 @@
 - 独立开发完成
 
 ### 企业、政府、门户网站建设
-- [天长市市场监督管理局网站](http://www.tcscjg.gov.cn/)
-- [天长市万寿镇政府网站](http://www.wanshou.gov.cn/?/wza)，[无障碍功能](http://www.wanshou.gov.cn/view.asp?/wza/=/&id=1111)
 - [上海世彤建筑装饰](http://www.sh-shitong.com/)，[手机端](http://m.sh-shitong.com/?skin=bootstrap)
 - [合肥堃能自动化科技有限公司](http://www.kunnengtec.com/)
 - [合肥艾琳婚纱摄影](http://www.algnsy.cn/)
@@ -74,7 +74,7 @@
 
 ## 合肥首嘉网络科技有限公司 （2012年8月 ~ 2013年2月）
 
-### 企业网站建设，ASP程序开发，模板制作。
+### 企业网站建设、ASP程序开发、模板制作等
 
 
 ---
@@ -84,6 +84,8 @@
 ## 开源项目
 
  - [laravel-soft-deletes-unix](https://packagist.org/packages/al-one/laravel-soft-deletes-unix) : Laravel软删除使用Unix时间戳
+ - [laravel-predis-listened](https://github.com/al-one/laravel-predis-listened) : Laravel监听pRedis命令
+ - [certbot-auth-dnspod](https://github.com/al-one/certbot-auth-dnspod) : Certbot使用DNSPod验证脚本
  - [parse_urls](https://github.com/al-one/parse_urls) : 正则表达式解析任何格式的URL，PHP和JS版
  - [array2](https://github.com/al-one/array2) : Asp键值对数组，Json编码解析
  - [ANCMS](http://www.ancms.cn/) : 安安网站内容管理系统，Asp + Access
@@ -101,23 +103,22 @@
 ---
 
 # 技能清单
-- 开发语言：PHP / Golang / JavaScript
-- 后端框架：ThinkPHP / Laravel
-- 前端框架：jQuery / Bootstrap / Vue.js
-- 开发工具：PHPStorm / Sublime Text / Git / Firebug
-- 数据库相关：MySQL / Redis / SqLite / MSSQL
-- 云和开放平台：SAE / 支付宝 / QQ互联 / 微信公众平台
+- 开发语言：PHP / Golang / JavaScript / Shell
+- 后端框架：Laravel / ThinkPHP / Symfony / Slim
+- 前端框架：Vue.js / Bootstrap / jQuery
+- 开发工具：PHPStorm / VSCode / Git
+- 数据库等：MySQL / Redis / SqLite / MSSQL
+- 其他技能：Raspberry Pi / Termux / Home Assistant
 
 
 ---
 
 # 自我描述
-- 熟练使用PHP开发网站应用，熟悉ThinkPHP、Laravel框架；
-- 熟悉Redis各种数据类型的应用场景及Linux常用命令；
-- 熟悉MySQL数据库优化以及Git，SVN等协作工具；
-- 精通Web前端，熟练使用jQuery、Bootstrap、Vue.js；
+- 熟练使用PHP开发各种应用，熟悉Laravel、ThinkPHP框架；
+- 熟悉Redis各种数据类型的应用场景及Linux环境搭建；
+- 熟悉MySQL数据库优化以及Git、SVN等协作工具；
+- 精通Web前端，熟练使用Vue.js、Bootstrap、jQuery；
 - 熟悉正则表达式、Markdown，喜欢接触新的技术；
-- 了解各大开放平台API接口，开发过微信公众平台接口。
 
 有责任心，有上进心，能吃苦耐劳，办事认真；
 待人和善，诚恳，能友好的与同事相处；
@@ -128,6 +129,7 @@
 
 # 致谢
 感谢您花时间阅读我的简历，期待能有机会和您共事。
+
 
 ![](http://img.users.51.la/16854071.asp?a.jpg)
 <script>
