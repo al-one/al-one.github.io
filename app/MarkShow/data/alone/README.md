@@ -1,7 +1,7 @@
 # 个人简历
 
  - **安龙** / 男 / 1992-12 / 安徽池州
- - 工作年限：6年+
+ - 工作年限：7年+
  - 最高学历：大专
  - 期望城市：上海
  - 期望职位：PHP高级开发工程师
@@ -83,7 +83,10 @@
 
 ## 开源项目
 
+ - [laravel-huawei-push](https://packagist.org/packages/al-one/laravel-huawei-push) : 华为离线推送Laravel通知频道
+ - [laravel-xiaomi-push](https://packagist.org/packages/al-one/laravel-xiaomi-push) : 小米离线推送Laravel通知频道
  - [laravel-soft-deletes-unix](https://packagist.org/packages/al-one/laravel-soft-deletes-unix) : Laravel软删除使用Unix时间戳
+ - [eloquent-super-relations](https://packagist.org/packages/al-one/eloquent-super-relations) : Eloquent关联模型加强(可读缓存)
  - [laravel-predis-listened](https://github.com/al-one/laravel-predis-listened) : Laravel监听pRedis命令
  - [certbot-auth-dnspod](https://github.com/al-one/certbot-auth-dnspod) : Certbot使用DNSPod验证脚本
  - [parse_urls](https://github.com/al-one/parse_urls) : 正则表达式解析任何格式的URL，PHP和JS版
@@ -93,22 +96,19 @@
 ## 业余作品
 
  - [MarkShow](http://al-one.github.io/app/MarkShow/?/md/help.md) : Markdown扩展解析，支持LaTeX公式、流程图等
- - [aGoogle](http://app.an56.org/aGoogle/) : 谷歌搜索，RequireJS + AngularJS + Bootstrap
  - [CKEditor表情插件](http://app.ah.cn/app/ckeditor/) : 百度UEditor表情插件移植到CKEditor
- - [DNSPod域名解析管理](http://app.ah.cn/app/AnDNS/) : 基于DNSpod API，实现域名解析功能
- - [卫星电视接收参数](http://app.an56.org/stv/)
- - [其他作品...](http://dwz.cn/alone-case)
+ - [DNSPod域名解析管理](http://app.ah.cn/app/AnDNS/) : 基于DNSpod API，实现域名解析功
 
 
 ---
 
 # 技能清单
-- 开发语言：PHP / Golang / JavaScript / Shell
-- 后端框架：Laravel / ThinkPHP / Symfony / Slim
-- 前端框架：Vue.js / Bootstrap / jQuery
-- 开发工具：PHPStorm / VSCode / Git
-- 数据库等：MySQL / Redis / SqLite / MSSQL
-- 其他技能：Raspberry Pi / Termux / Home Assistant
+- 语言：PHP / JavaScript / Python / Shell
+- 框架：Laravel / Symfony / ThinkPHP / Vue.js
+- 架构：Nginx / MySQL / Redis / Supervisor / Docker
+- 前端：Bootstrap / Lodash / Axios / jQuery
+- 工具：PhpStorm / Git / Composer / PHPUnit / xDebug
+- 其他：Swagger / Regex / RaspberryPi / Opencv / Home Assistant
 
 
 ---
