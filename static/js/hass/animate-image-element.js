@@ -4,6 +4,11 @@ import { styleMap } from 'https://unpkg.com/lit-html/directives/style-map?module
 import { hasAction, handleAction } from 'https://unpkg.com/custom-card-helpers?module';
 import { actionHandler } from './action-handler-directive.js';
 
+console.info(
+    '%c AnimateImageElement',
+    'color: cyan; background: black; font-weight: bold;',
+);
+
 class AnimateImageElement extends LitElement {
 
     setConfig(config) {
@@ -55,6 +60,8 @@ class AnimateImageElement extends LitElement {
             }
         }
 
+        let extStyle = cfg.ext_style ? html`<style>${cfg.ext_style}</style>` : html``;
+
         return html`
           <img
             src="${src}"
@@ -64,10 +71,11 @@ class AnimateImageElement extends LitElement {
             data-state="${sta}"
             @action=${this._handleAction}
             .actionHandler=${actionHandler({
-                hasHold: hasAction(this._config.hold_action),
-                hasDoubleClick: hasAction(this._config.double_tap_action),
+                hasHold: hasAction(cfg.hold_action),
+                hasDoubleClick: hasAction(cfg.double_tap_action),
             })}
           >
+          ${extStyle}
         `;
     }
 
@@ -93,25 +101,30 @@ class AnimateImageElement extends LitElement {
     static get styles() {
         return css`
             @keyframes spin {
-              000% { transform: rotate(000deg);}
+              000% { transform: rotate(000deg); }
               100% { transform: rotate(359deg); }
+            }
+            @keyframes breathe {
+              000% { filter: brightness(100%); }
+              050% { filter: brightness(070%); }
+              100% { filter: brightness(100%); }
             }
             @keyframes fadeOutRightBig {
               000% { opacity: 1; }
-              100% { opacity: 0; translate3d(2000px, 0, 0); }
+              100% { opacity: 0; translate3d(300%, 0, 0); }
             }
             @keyframes rollOut {
               000% { opacity: 1; }
-              100% { opacity: 0; transform: translate3d(2000px, 0, 0) rotate3d(0, 0, 1, 720deg); }
+              100% { opacity: 0; transform: translate3d(300%, 0, 0) rotate3d(0, 0, 1, 720deg); }
             }
             @keyframes rollInRight {
-              000% { opacity: 0; transform: translate3d(2000px, 0, 0) rotate3d(0, 0, 1, 720deg); }
+              000% { opacity: 0; transform: translate3d(300%, 0, 0) rotate3d(0, 0, 1, 720deg); }
               100% { opacity: 1; }
             }
             @keyframes rollBack {
-              000% { transform:translateX(000%) rotateZ(0000deg); }
-              050% { transform:translateX(400%) rotateZ(0720deg); }
-              100% { transform:translateX(000%) rotateZ(1440deg); }
+              000% { transform:translateX(000%) rotateZ(000deg); }
+              050% { transform:translateX(300%) rotateZ(720deg); }
+              100% { transform:translateX(000%) rotateZ(000deg); }
             }
         `;
     }
