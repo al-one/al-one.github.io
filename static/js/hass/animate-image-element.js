@@ -126,6 +126,11 @@ class AnimateImageElement extends LitElement {
               050% { transform:translateX(300%) rotateZ(720deg); }
               100% { transform:translateX(000%) rotateZ(000deg); }
             }
+            @keyframes rollBackY {
+              000% { transform:translateY(000%) rotateZ(000deg); }
+              050% { transform:translateY(300%) rotateZ(720deg); }
+              100% { transform:translateY(000%) rotateZ(000deg); }
+            }
         `;
     }
 }
